@@ -8,6 +8,8 @@ declare const globalThis: {
   prismaGlobal: ReturnType<typeof prismaClientSingleton>;
 } & typeof global;
 
+const connectionString = `${process.env.DATABASE_URL}`;
+
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
 export default prisma;
