@@ -21,7 +21,7 @@ export async function UserMenu({ user, className }: UserMenuProps) {
       <DropdownMenuTrigger className={className}>
         <Avatar user={user} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="mx-4">
         <DropdownMenuItem onClick={() => signOut()}>Sign Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

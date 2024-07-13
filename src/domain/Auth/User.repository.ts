@@ -15,6 +15,8 @@ export class UserRepository
       select: {
         id: true,
         name: true,
+        email: true,
+        role: true,
       },
       where: {
         id: options?.where?.id,

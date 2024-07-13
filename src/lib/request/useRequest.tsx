@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useAppQuery<T>(
   url: string,
-  queryParams: { [key: string]: string | string[] | number | number[] },
+  queryParams?: { [key: string]: string | string[] | number | number[] },
 ) {
   const queryKey = [url, queryParams];
   const queryClient = useQueryClient();
