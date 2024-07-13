@@ -13,8 +13,11 @@ model User {
   email         String          @unique
   emailVerified DateTime?
   image         String?
+  roleId        String?
+
   accounts      Account[]
   sessions      Session[]
+  role          Role? @relation(fields: [roleId], references: [id])
   // Optional for WebAuthn support
   Authenticator Authenticator[]
  
@@ -75,4 +78,11 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([userId, credentialID])
+}
+
+model Role {
+  id String @id @default(uuid())
+  name String
+
+  users User[]
 }

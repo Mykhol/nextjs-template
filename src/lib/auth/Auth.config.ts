@@ -6,5 +6,6 @@ export default {
   providers: [Google],
   pages: {
     signIn: "/auth/sign-in",
+    newUser: "/api/auth/onboard",
   },
 } satisfies NextAuthConfig;
