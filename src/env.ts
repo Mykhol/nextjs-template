@@ -6,6 +6,8 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NEXT_AUTH_URL: z.string().url(),
     NEXT_AUTH_SECRET: z.string(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
 
   /**

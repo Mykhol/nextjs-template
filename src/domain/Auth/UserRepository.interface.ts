@@ -1,6 +1,5 @@
-import { Or } from "@prisma/client/runtime/library";
-import { UserDto } from "./User";
 import { Order, Where } from "@/lib/Repository";
+import { UserDto } from "./User";
 
 /**
  * Options for searching for users
