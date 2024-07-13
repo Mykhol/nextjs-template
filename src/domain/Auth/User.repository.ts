@@ -1,6 +1,6 @@
-import { PrismaRepository } from "@/lib/PrismaRepository";
 import { GetUserOptions, IUserRepository } from "./UserRepository.interface";
 import { UserDto } from "./User";
+import { PrismaRepository } from "@/lib/prisma/PrismaRepository";
 
 export class UserRepository
   extends PrismaRepository
@@ -17,12 +17,14 @@ export class UserRepository
         name: true,
       },
       where: {
-        id: options?.where.id,
-        name: options?.where.name,
+        id: options?.where?.id,
+        name: options?.where?.name,
       },
       orderBy: {
-        name: options?.order.name,
+        name: options?.order?.name,
       },
+      skip: options?.skip,
+      take: options?.take,
     });
   }
 }
