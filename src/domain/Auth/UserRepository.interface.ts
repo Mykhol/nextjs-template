@@ -8,6 +8,12 @@ export interface GetUserOptions {
   where?: {
     id?: Where<string>;
     name?: Where<string>;
+    email?: Where<string>;
+    OR?: (
+      | { id?: Where<string> }
+      | { name?: Where<string> }
+      | { email?: Where<string> }
+    )[];
   };
   order?: {
     name?: Order;

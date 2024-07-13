@@ -21,6 +21,7 @@ export class UserRepository
       where: {
         id: options?.where?.id,
         name: options?.where?.name,
+        OR: options?.where?.OR,
       },
       orderBy: {
         name: options?.order?.name,

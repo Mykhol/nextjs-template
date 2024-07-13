@@ -1,10 +1,14 @@
 import { ServiceFactory } from "@/lib/DependencyInjection";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const authService = ServiceFactory.buildAuthService();
 
-  const users = await authService.getAllUsers();
+  const params = request.nextUrl.searchParams;
+
+  const term = params.get("searchTerm");
+
+  const users = await authService.getUsersPaginated(10, 0, term || undefined);
 
   return NextResponse.json({ data: users });
 }

@@ -22,8 +22,28 @@ export class AuthService {
    * @param page
    * @returns User[]
    */
-  async getUsersPaginated(pageSize: number, page: number): Promise<UserDto[]> {
+  async getUsersPaginated(
+    pageSize: number,
+    page: number,
+    searchTerm?: string,
+  ): Promise<UserDto[]> {
     return await this.userRepository.getUsers({
+      where: {
+        OR: searchTerm
+          ? [
+              {
+                name: {
+                  contains: searchTerm,
+                },
+              },
+              {
+                email: {
+                  contains: searchTerm,
+                },
+              },
+            ]
+          : undefined,
+      },
       take: pageSize,
       skip: pageSize * page,
     });

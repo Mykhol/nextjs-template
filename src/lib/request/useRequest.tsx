@@ -2,15 +2,19 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useAppQuery<T>(
   url: string,
-  queryParams?: { [key: string]: string | string[] | number | number[] },
+  queryParams?: { [key: string]: string },
 ) {
   const queryKey = [url, queryParams];
   const queryClient = useQueryClient();
 
+  const generatedParams = new URLSearchParams(queryParams);
+
   const query = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
-      const result = await fetch(url, { method: "GET" });
+      const result = await fetch(`${url}?${generatedParams}`, {
+        method: "GET",
+      });
 
       try {
         if (result.ok) {
