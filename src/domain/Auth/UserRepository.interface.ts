@@ -24,4 +24,5 @@ export interface GetUserOptions {
 
 export interface IUserRepository {
   getUsers(options?: GetUserOptions): Promise<UserDto[]>;
+  getUser(options: GetUserOptions): Promise<UserDto>;
 }

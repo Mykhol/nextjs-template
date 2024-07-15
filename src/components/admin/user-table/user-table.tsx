@@ -2,7 +2,6 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
 import { UserDto } from "@/domain/Auth/User";
 import { useAppQuery } from "@/lib/request/useRequest";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -13,10 +12,15 @@ const columnHelper = createColumnHelper<UserDto>();
 const columns = [
   columnHelper.accessor("name", {
     header: "Name",
+    size: 100,
   }),
-  columnHelper.accessor("email", { header: "Email" }),
+  columnHelper.accessor("email", {
+    header: "Email",
+    size: 100,
+  }),
   columnHelper.accessor("role.name", {
     header: "Role",
+    size: 100,
   }),
 ];
 
@@ -40,11 +44,7 @@ export function UserTable() {
           }
           className="w-[400px]"
         />
-        {isLoading ? (
-          <Skeleton />
-        ) : (
-          userQuery && <DataTable columns={columns} data={userQuery} />
-        )}
+        <DataTable columns={columns} data={userQuery || []} />
       </div>
     </>
   );

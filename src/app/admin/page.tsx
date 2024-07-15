@@ -6,7 +6,6 @@ export default async function Page() {
     <div>
       <Navbar />
       <div className="p-4">
-        <h2>Application users</h2>
         <UserTable />
       </div>
     </div>
