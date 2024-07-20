@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ServiceFactory } from "@/lib/ServiceFactory";
 import { auth } from "@/lib/auth/Auth";
+import { PERMISSION_KEY } from "@/domain/Auth/Permission.keys";
 
 export interface ProtectedRouteOptions {
   request: NextRequest;
+  permissionKey?: string;
+  callback: () => Promise<NextResponse<unknown>>;
 }
 
 export async function protectedRoute(
@@ -11,12 +14,26 @@ export async function protectedRoute(
 ): Promise<NextResponse> {
   const session = await auth();
 
-  console.log(session);
+  if (!session || !session.user || !session.user.id) {
+    return new NextResponse("Something went wrong", { status: 403 });
+  }
 
-  //
-  // const authenticationService = ServiceFactory.buildAuthenticationService();
-  //
-  // const user = authenticationService.validateSession();
+  if (options.permissionKey) {
+    const authorisationService = ServiceFactory.buildAuthorisationService();
 
-  return new NextResponse("Success", { status: 200 });
+    const validated = await authorisationService.validateUser(
+      session.user.id,
+      options.permissionKey,
+    );
+
+    if (!validated) {
+      return new NextResponse("Insufficient permissions", { status: 403 });
+    }
+  }
+
+  try {
+    return await options.callback();
+  } catch (e) {
+    return new NextResponse("Something went wrong", { status: 500 });
+  }
 }

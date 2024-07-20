@@ -106,3 +106,8 @@ model RolePermission {
 
   @@id([permissionId, roleId])
 }
+
+model Organisatino {
+  id   String @id @default(uuid())
+  name String
+}

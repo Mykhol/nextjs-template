@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Avatar } from "./avatar";
+import { Avatar } from "../account/avatar";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
