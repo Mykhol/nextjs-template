@@ -19,10 +19,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const userService = ServiceFactory.buildUserService();
 
       const user = await userService.getUser(params.user.id);
+      const role = await userService.getRole(user.id);
 
-      console.log(user);
-
-      return { ...params.session, user: user } satisfies Session;
+      return { ...params.session, user: user, role: role } satisfies Session;
     },
   },
   providers: [

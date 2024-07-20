@@ -10,18 +10,20 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar } from "../account/avatar";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { LogOut, Settings, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { PERMISSION_KEY } from "@/domain/Auth/Permission.keys";
-import { User, UserDto } from "@/domain/User/User";
+import { User, UserDto } from "@/domain/User/models/User";
+import { Role } from "@/domain/Auth/models/Role";
+import { useRole } from "@/hooks/useRole";
 
 interface UserMenuProps extends HTMLAttributes<HTMLDivElement> {
   user: UserDto;
 }
 
 export function UserMenu({ user, className }: UserMenuProps) {
-  const userEntity = new User(user);
+  const { role } = useRole();
 
   return (
     <DropdownMenu>
@@ -30,14 +32,13 @@ export function UserMenu({ user, className }: UserMenuProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-4 p-4 min-w-[200px]">
         <DropdownMenuGroup>{user?.name}</DropdownMenuGroup>
-
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" asChild>
           <Link href={"/account"}>
             <Settings className="mr-2" size={18} /> Account
           </Link>
         </DropdownMenuItem>
-        {userEntity.hasPermission(PERMISSION_KEY.admin.dashboard.view) && (
+        {role?.hasPermission(PERMISSION_KEY.admin.dashboard.view) && (
           <DropdownMenuItem className="cursor-pointer" asChild>
             <Link href={"/admin"}>
               <ShieldAlert className="mr-2" size={18} /> Admin Dashboard

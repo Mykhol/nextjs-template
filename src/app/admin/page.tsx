@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <div>
       <Navbar />
-      <div className="p-4">
+      <div className="p-10">
         <UserTable />
       </div>
     </div>

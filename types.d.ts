@@ -1,13 +1,11 @@
-import { RoleDto } from "@/domain/Auth/Role";
+import { RoleDto } from "@/domain/Auth/models/Role";
 
 declare module "next-auth" {
   /**
    * The shape of the user object returned in the OAuth providers' `profile` callback,
    * or the second parameter of the `session` callback, when using a database.
    */
-  interface User {
-    role?: RoleDto;
-  }
+  interface User {}
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,
    * Usually contains information about the provider being used, like OAuth tokens (`access_token`, etc).
@@ -19,12 +17,13 @@ declare module "next-auth" {
    */
   interface Session {
     user: UserDto;
+    role: RoleDto | null;
   }
 }
 
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
 import { JWT } from "next-auth/jwt";
-import { UserDto } from "@/domain/User/User";
+import { UserDto } from "@/domain/User/models/User";
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */

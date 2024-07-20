@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma/Prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
-import { UserDto } from "../User/User";
-import { IUserRepository } from "../User/UserRepository.interface";
+import { UserDto } from "../../User/models/User";
+import { IUserRepository } from "../../User/interfaces/UserRepository.interface";
 
 export class AuthenticationError extends Error {
   constructor(message: string) {

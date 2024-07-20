@@ -1,10 +1,10 @@
 import { PrismaRepository } from "@/lib/prisma/PrismaRepository";
-import { UserDto } from "./User";
+import { User, UserDto } from "../models/User";
 import {
   CreateUserOptions,
   GetUserOptions,
   IUserRepository,
-} from "./UserRepository.interface";
+} from "../interfaces/UserRepository.interface";
 
 export class UserRepository
   extends PrismaRepository
@@ -19,15 +19,7 @@ export class UserRepository
       id: true,
       name: true,
       email: true,
-      role: {
-        include: {
-          RolePermission: {
-            include: {
-              permission: true,
-            },
-          },
-        },
-      },
+      role: true,
       image: true,
     };
   }
@@ -65,53 +57,22 @@ export class UserRepository
    * @param options
    * @returns UserDto[]
    */
-  async getUsers(options?: GetUserOptions): Promise<UserDto[]> {
+  async getUsers(options?: GetUserOptions): Promise<User[]> {
     const users = await this.client.user.findMany(
       this.makePrismaOptions(options),
     );
-
-    return users.map((user) => {
-      const permissions =
-        user.role?.RolePermission.map((permission) => permission.permission) ||
-        [];
-
-      return {
-        ...user,
-        role: user.role
-          ? {
-              id: user.role?.id,
-              name: user.role?.name,
-              permissions: permissions,
-            }
-          : null,
-      } satisfies UserDto;
-    });
+    return users.map((user) => new User(user));
   }
-
   /**
    * Gets a single user in the application
    * @param options
    * @returns
    */
-  async getUser(options: GetUserOptions): Promise<UserDto> {
+  async getUser(options: GetUserOptions): Promise<User> {
     const user = await this.client.user.findFirstOrThrow(
       this.makePrismaOptions(options),
     );
-
-    const permissions =
-      user.role?.RolePermission.map((permission) => permission.permission) ||
-      [];
-
-    return {
-      ...user,
-      role: user.role
-        ? {
-            id: user.role?.id,
-            name: user.role?.name,
-            permissions: permissions,
-          }
-        : null,
-    } satisfies UserDto;
+    return new User(user);
   }
 
   async createUser(options: CreateUserOptions) {

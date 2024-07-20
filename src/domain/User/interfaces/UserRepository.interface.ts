@@ -1,6 +1,6 @@
-import { Order, Where } from "../Repository";
-import { UserDto } from "./User";
-import { SessionDto } from "@/domain/Auth/Session";
+import { Order, Where } from "../../Repository";
+import { User, UserDto } from "../models/User";
+import { SessionDto } from "@/domain/Auth/models/Session";
 
 /**
  * Options for searching for users
@@ -30,8 +30,8 @@ export interface CreateUserOptions {
 }
 
 export interface IUserRepository {
-  getUsers(options?: GetUserOptions): Promise<UserDto[]>;
+  getUsers(options?: GetUserOptions): Promise<User[]>;
   getSession(sessionToken: string): Promise<SessionDto | null>;
-  getUser(options: GetUserOptions): Promise<UserDto>;
+  getUser(options: GetUserOptions): Promise<User>;
   // createUser(options: CreateUserOptions): Promise<UserDto>;
 }

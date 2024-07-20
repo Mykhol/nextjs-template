@@ -1,15 +1,15 @@
-import { PermissionDto } from "@/domain/Auth/PermissionDto";
+import { Permission } from "@/domain/Auth/models/Permission";
 
 export type RoleDto = {
   id: string;
   name: string;
-  permissions: PermissionDto[];
+  permissions: Permission[];
 };
 
 export class Role {
   private id: string;
   private name: string;
-  private permissions: PermissionDto[];
+  private permissions: Permission[];
 
   constructor(dto: RoleDto) {
     this.id = dto.id;

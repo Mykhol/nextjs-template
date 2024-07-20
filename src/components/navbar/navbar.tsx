@@ -13,7 +13,7 @@ export async function Navbar({ className }: NavbarProps) {
   }
 
   return (
-    <div className="p-4 w-full flex">
+    <div className="p-4 w-full flex bg-card-foreground">
       <UserMenu user={session.user} className="ml-auto" />
     </div>
   );

@@ -1,6 +1,6 @@
 import { PrismaRepository } from "@/lib/prisma/PrismaRepository";
-import { IRoleRepository } from "@/domain/Auth/RoleRepository.interface";
-import { Role } from "@/domain/Auth/Role";
+import { IRoleRepository } from "@/domain/Auth/interfaces/RoleRepository.interface";
+import { Role } from "@/domain/Auth/models/Role";
 
 export class RoleRepository
   extends PrismaRepository

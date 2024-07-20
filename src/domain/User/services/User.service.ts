@@ -1,6 +1,7 @@
-import { IUserRepository } from "@/domain/User/UserRepository.interface";
-import { UserDto } from "@/domain/User/User";
-import { IRoleRepository } from "@/domain/Auth/RoleRepository.interface";
+import { IUserRepository } from "@/domain/User/interfaces/UserRepository.interface";
+import { UserDto } from "@/domain/User/models/User";
+import { IRoleRepository } from "@/domain/Auth/interfaces/RoleRepository.interface";
+import { RoleDto } from "@/domain/Auth/models/Role";
 
 export class UserService {
   constructor(
@@ -8,19 +9,18 @@ export class UserService {
     private roleRepository: IRoleRepository,
   ) {}
 
-  async getUser(userId: string): Promise<UserDto> {
-    const user = await this.userRepository.getUser({ where: { id: userId } });
+  async getRole(userId: string): Promise<RoleDto | null> {
+    const user = await this.getUser(userId);
 
-    const role = user.role
+    return user.role?.id
       ? await this.roleRepository
           .getRole(user.role.id)
           .then((role) => role.toDto())
       : null;
+  }
 
-    return {
-      ...user,
-      role: role,
-    };
+  async getUser(userId: string): Promise<UserDto> {
+    return await this.userRepository.getUser({ where: { id: userId } });
   }
 
   /**

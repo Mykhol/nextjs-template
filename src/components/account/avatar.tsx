@@ -2,7 +2,7 @@ import { AvatarFallback } from "@radix-ui/react-avatar";
 
 import { HTMLAttributes } from "react";
 import { Avatar as AvatarBase, AvatarImage } from "../ui/avatar";
-import { UserDto } from "@/domain/User/User";
+import { UserDto } from "@/domain/User/models/User";
 
 interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   user?: UserDto;
