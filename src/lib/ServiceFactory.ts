@@ -17,6 +17,6 @@ export class ServiceFactory {
   }
 
   static buildUserService(): UserService {
-    return new UserService(new UserRepository());
+    return new UserService(new UserRepository(), new RoleRepository());
   }
 }

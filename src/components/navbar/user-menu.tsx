@@ -3,7 +3,6 @@
 import { HTMLAttributes } from "react";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -11,17 +10,19 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar } from "../account/avatar";
-import { User } from "next-auth";
 import { signOut } from "next-auth/react";
-import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, Settings, ShieldAlert } from "lucide-react";
 import Link from "next/link";
+import { PERMISSION_KEY } from "@/domain/Auth/Permission.keys";
+import { User, UserDto } from "@/domain/User/User";
 
 interface UserMenuProps extends HTMLAttributes<HTMLDivElement> {
-  user?: User;
+  user: UserDto;
 }
 
 export function UserMenu({ user, className }: UserMenuProps) {
+  const userEntity = new User(user);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={className}>
@@ -36,6 +37,13 @@ export function UserMenu({ user, className }: UserMenuProps) {
             <Settings className="mr-2" size={18} /> Account
           </Link>
         </DropdownMenuItem>
+        {userEntity.hasPermission(PERMISSION_KEY.admin.dashboard.view) && (
+          <DropdownMenuItem className="cursor-pointer" asChild>
+            <Link href={"/admin"}>
+              <ShieldAlert className="mr-2" size={18} /> Admin Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
           <LogOut className="mr-2" size={18} /> Sign Out
         </DropdownMenuItem>

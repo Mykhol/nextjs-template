@@ -1,3 +1,5 @@
+import { Role, RoleDto } from "@/domain/Auth/Role";
+
 /**
  * Serializable object used to pass user data around the application
  */
@@ -5,11 +7,8 @@ export type UserDto = {
   id: string;
   name: string | null;
   email: string | null;
-  password: string | null;
-  role: {
-    id: string;
-    name: string;
-  } | null;
+  image: string | null;
+  role: RoleDto | null;
 };
 
 /**
@@ -19,18 +18,19 @@ export class User {
   public id: string;
   public name: string | null;
   public email: string | null;
-  public password: string | null;
-  public role: {
-    id: string;
-    name: string;
-  } | null;
+  public image: string | null;
+  public role: Role | null;
 
   constructor(userDto: UserDto) {
     this.id = userDto.id;
     this.name = userDto.name;
     this.email = userDto.email;
-    this.role = userDto.role;
-    this.password = userDto.password;
+    this.role = userDto.role ? new Role(userDto.role) : null;
+    this.image = userDto.image;
+  }
+
+  hasPermission(permissionKey: string): boolean {
+    return !!this.role?.hasPermission(permissionKey);
   }
 
   /**
@@ -42,8 +42,8 @@ export class User {
       id: this.id,
       name: this.name,
       email: this.email,
-      password: this.password,
-      role: this.role,
+      role: this.role ? this.role.toDto() : null,
+      image: this.image,
     };
   }
 }

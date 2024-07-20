@@ -53,18 +53,18 @@ export class AuthenticationService {
     return bcrypt.compareSync(password, hash);
   }
 
-  /**
-   * Creates a user in the database
-   * @param newUser
-   * @returns
-   */
-  async createUser(newUser: {
-    name?: string;
-    email: string;
-    password?: string;
-  }): Promise<UserDto> {
-    const adapter = PrismaAdapter(prisma);
-
-    return await this.userRepository.createUser(newUser);
-  }
+  // /**
+  //  * Creates a user in the database
+  //  * @param newUser
+  //  * @returns
+  //  */
+  // async createUser(newUser: {
+  //   name?: string;
+  //   email: string;
+  //   password?: string;
+  // }): Promise<UserDto> {
+  //   const adapter = PrismaAdapter(prisma);
+  //
+  //   return await this.userRepository.createUser(newUser);
+  // }
 }

@@ -19,8 +19,16 @@ export class UserRepository
       id: true,
       name: true,
       email: true,
-      role: true,
-      password: true,
+      role: {
+        include: {
+          RolePermission: {
+            include: {
+              permission: true,
+            },
+          },
+        },
+      },
+      image: true,
     };
   }
 
@@ -46,7 +54,10 @@ export class UserRepository
   }
 
   async getSession(sessionToken: string) {
-    return this.client.session.findUnique({where: { sessionToken: sessionToken }, select: { userId: true, sessionToken: true, expires: true}})
+    return this.client.session.findUnique({
+      where: { sessionToken: sessionToken },
+      select: { userId: true, sessionToken: true, expires: true },
+    });
   }
 
   /**
@@ -55,7 +66,26 @@ export class UserRepository
    * @returns UserDto[]
    */
   async getUsers(options?: GetUserOptions): Promise<UserDto[]> {
-    return this.client.user.findMany(this.makePrismaOptions(options));
+    const users = await this.client.user.findMany(
+      this.makePrismaOptions(options),
+    );
+
+    return users.map((user) => {
+      const permissions =
+        user.role?.RolePermission.map((permission) => permission.permission) ||
+        [];
+
+      return {
+        ...user,
+        role: user.role
+          ? {
+              id: user.role?.id,
+              name: user.role?.name,
+              permissions: permissions,
+            }
+          : null,
+      } satisfies UserDto;
+    });
   }
 
   /**
@@ -64,9 +94,24 @@ export class UserRepository
    * @returns
    */
   async getUser(options: GetUserOptions): Promise<UserDto> {
-    return this.client.user.findFirstOrThrow(
+    const user = await this.client.user.findFirstOrThrow(
       this.makePrismaOptions(options),
     );
+
+    const permissions =
+      user.role?.RolePermission.map((permission) => permission.permission) ||
+      [];
+
+    return {
+      ...user,
+      role: user.role
+        ? {
+            id: user.role?.id,
+            name: user.role?.name,
+            permissions: permissions,
+          }
+        : null,
+    } satisfies UserDto;
   }
 
   async createUser(options: CreateUserOptions) {

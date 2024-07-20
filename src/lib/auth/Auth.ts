@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { ServiceFactory } from "../ServiceFactory";
@@ -13,6 +13,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/auth/sign-in",
     newUser: "/api/auth/onboard",
     error: "/auth/sign-in",
+  },
+  callbacks: {
+    async session(params) {
+      const userService = ServiceFactory.buildUserService();
+
+      const user = await userService.getUser(params.user.id);
+
+      console.log(user);
+
+      return { ...params.session, user: user } satisfies Session;
+    },
   },
   providers: [
     Google,

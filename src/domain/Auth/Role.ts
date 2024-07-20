@@ -22,4 +22,12 @@ export class Role {
       (permission) => permission.key === permissionKey,
     );
   }
+
+  toDto() {
+    return {
+      id: this.id,
+      name: this.name,
+      permissions: this.permissions,
+    } satisfies RoleDto;
+  }
 }

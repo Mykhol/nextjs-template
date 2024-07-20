@@ -6,7 +6,7 @@ import { PERMISSION_KEY } from "@/domain/Auth/Permission.keys";
 export async function GET(request: NextRequest) {
   return await protectedRoute({
     request: request,
-    permissionKey: PERMISSION_KEY.admin.view.users,
+    permissionKey: PERMISSION_KEY.admin.users.view,
     callback: async () => {
       // Setup services
       const userService = ServiceFactory.buildUserService();

@@ -1,10 +1,11 @@
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { User } from "next-auth";
+
 import { HTMLAttributes } from "react";
 import { Avatar as AvatarBase, AvatarImage } from "../ui/avatar";
+import { UserDto } from "@/domain/User/User";
 
 interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
-  user?: User;
+  user?: UserDto;
 }
 
 export function Avatar({ user }: AvatarProps) {

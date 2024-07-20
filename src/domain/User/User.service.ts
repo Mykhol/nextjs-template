@@ -1,16 +1,26 @@
 import { IUserRepository } from "@/domain/User/UserRepository.interface";
 import { UserDto } from "@/domain/User/User";
+import { IRoleRepository } from "@/domain/Auth/RoleRepository.interface";
 
 export class UserService {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    private userRepository: IUserRepository,
+    private roleRepository: IRoleRepository,
+  ) {}
 
-  /**
-   * Returns all the applications users
-   *
-   * @returns UserDto[]
-   */
-  async getAllUsers(): Promise<UserDto[]> {
-    return await this.userRepository.getUsers();
+  async getUser(userId: string): Promise<UserDto> {
+    const user = await this.userRepository.getUser({ where: { id: userId } });
+
+    const role = user.role
+      ? await this.roleRepository
+          .getRole(user.role.id)
+          .then((role) => role.toDto())
+      : null;
+
+    return {
+      ...user,
+      role: role,
+    };
   }
 
   /**
