@@ -1,3 +1,5 @@
-export class Permission {
-
-}
+export type Permission = {
+  id: string;
+  name: string;
+  key: string;
+};
