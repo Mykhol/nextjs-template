@@ -33,7 +33,11 @@ export function SignInPanel() {
   });
 
   function handleSignUp(data: FormValues) {
-    signIn("credentials", { email: data.email, password: data.password });
+    signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      callbackUrl: "/admin",
+    });
   }
 
   return (

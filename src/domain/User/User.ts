@@ -5,6 +5,7 @@ export type UserDto = {
   id: string;
   name: string | null;
   email: string | null;
+  password: string | null;
   role: {
     id: string;
     name: string;
@@ -18,16 +19,18 @@ export class User {
   public id: string;
   public name: string | null;
   public email: string | null;
-  public role?: {
+  public password: string | null;
+  public role: {
     id: string;
     name: string;
-  };
+  } | null;
 
   constructor(userDto: UserDto) {
     this.id = userDto.id;
     this.name = userDto.name;
     this.email = userDto.email;
-    this.role = userDto.role || undefined;
+    this.role = userDto.role;
+    this.password = userDto.password;
   }
 
   /**
@@ -39,7 +42,8 @@ export class User {
       id: this.id,
       name: this.name,
       email: this.email,
-      role: this.role || null,
+      password: this.password,
+      role: this.role,
     };
   }
 }

@@ -42,7 +42,11 @@ export function SignUpPanel() {
   });
 
   function handleSignUp(data: FormValues) {
-    signIn("credentials", { email: data.email, password: data.password });
+    signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      signUp: "true",
+    });
   }
 
   return (

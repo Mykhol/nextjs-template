@@ -1,14 +1,18 @@
-import { ServiceFactory } from "@/lib/DependencyInjection";
+import { ServiceFactory } from "@/lib/ServiceFactory";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const authService = ServiceFactory.buildAuthService();
+  // Setup services
+  const userService = ServiceFactory.buildUserService();
 
+  // Fetch and parse params
   const params = request.nextUrl.searchParams;
+  const searchTerm = params.get("searchTerm");
 
-  const term = params.get("searchTerm");
-
-  const users = await authService.getUsersPaginated(10, 0, term || undefined);
+  // Fetch the users
+  const users = await userService.getUsersPaginated(10, 0, {
+    searchTerm: searchTerm || undefined,
+  });
 
   return NextResponse.json({ data: users });
 }

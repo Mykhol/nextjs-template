@@ -7,7 +7,7 @@ interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   user?: User;
 }
 
-export async function Avatar({ user }: AvatarProps) {
+export function Avatar({ user }: AvatarProps) {
   return (
     <AvatarBase>
       {user?.image && <AvatarImage src={user?.image} />}

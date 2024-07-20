@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
-import { UserDto } from "@/domain/Auth/User";
+import { UserDto } from "@/domain/User/User";
 import { useAppQuery } from "@/lib/request/useRequest";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
