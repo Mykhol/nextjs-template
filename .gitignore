@@ -38,3 +38,6 @@ next-env.d.ts
 
 # webstorm
 .idea/
+
+# drawio
+.$Software-Architecture.drawio.dtmp
