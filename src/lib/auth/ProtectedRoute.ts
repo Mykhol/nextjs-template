@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ServiceFactory } from "@/lib/ServiceFactory";
 import { auth } from "@/lib/auth/Auth";
-import { PERMISSION_KEY } from "@/domain/Auth/Permission.keys";
 
 export interface ProtectedRouteOptions {
   request: NextRequest;

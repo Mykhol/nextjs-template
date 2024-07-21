@@ -32,11 +32,11 @@ export function SignInPanel() {
     resolver: zodResolver(schema),
   });
 
-  function handleSignUp(data: FormValues) {
-    signIn("credentials", {
+  function handleSignIn(data: FormValues) {
+    signIn("creds", {
       email: data.email,
       password: data.password,
-      callbackUrl: "/admin",
+      callbackUrl: "/account",
     });
   }
 
@@ -50,7 +50,7 @@ export function SignInPanel() {
       </div>
       <div className="grid gap-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSignUp)}>
+          <form onSubmit={form.handleSubmit(handleSignIn)}>
             <FormField
               control={form.control}
               name="email"

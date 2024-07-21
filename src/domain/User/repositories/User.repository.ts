@@ -24,25 +24,16 @@ export class UserRepository
     };
   }
 
-  /**
-   * Returns the common prisma options, required
-   * @param options
-   * @returns
-   */
-  private makePrismaOptions(options?: GetUserOptions) {
-    return {
-      select: this.makePrismaSelectOptions(),
+  async getPassword(userId: string): Promise<string | null> {
+    const password = await this.client.user.findFirst({
       where: {
-        id: options?.where?.id,
-        name: options?.where?.name,
-        OR: options?.where?.OR,
+        id: userId,
       },
-      orderBy: {
-        name: options?.order?.name,
-      },
-      skip: options?.skip,
-      take: options?.take,
-    };
+    });
+
+    console.log("pass ", password);
+
+    return password?.password || null;
   }
 
   async getSession(sessionToken: string) {
@@ -80,5 +71,27 @@ export class UserRepository
       data: options,
       select: this.makePrismaSelectOptions(),
     });
+  }
+
+  /**
+   * Returns the common prisma options, required
+   * @param options
+   * @returns
+   */
+  private makePrismaOptions(options?: GetUserOptions) {
+    return {
+      select: this.makePrismaSelectOptions(),
+      where: {
+        id: options?.where?.id,
+        name: options?.where?.name,
+        email: options?.where?.email,
+        OR: options?.where?.OR,
+      },
+      orderBy: {
+        name: options?.order?.name,
+      },
+      skip: options?.skip,
+      take: options?.take,
+    };
   }
 }

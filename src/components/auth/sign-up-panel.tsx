@@ -42,7 +42,7 @@ export function SignUpPanel() {
   });
 
   function handleSignUp(data: FormValues) {
-    signIn("credentials", {
+    signIn("creds", {
       email: data.email,
       password: data.password,
       signUp: "true",

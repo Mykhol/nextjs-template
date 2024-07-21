@@ -27,8 +27,8 @@ export function useAppQuery<T>(
     },
   });
 
-  function invalidate() {
-    queryClient.invalidateQueries({ queryKey: [url] });
+  async function invalidate() {
+    await queryClient.invalidateQueries({ queryKey: [url] });
   }
 
   /**

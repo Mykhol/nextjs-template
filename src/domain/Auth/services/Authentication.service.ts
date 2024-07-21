@@ -17,6 +17,40 @@ export class AuthenticationError extends Error {
 export class AuthenticationService {
   constructor(private userRepository: IUserRepository) {}
 
+  async validateCredentials(
+    email: string,
+    password: string,
+  ): Promise<UserDto | null> {
+    const user = await this.userRepository.getUser({ where: { email: email } });
+
+    if (!user) {
+      console.log("No user found");
+      return null;
+    }
+
+    console.log(user);
+
+    const storedPassword = await this.userRepository.getPassword(user.id);
+
+    if (!storedPassword) {
+      console.log("No password found");
+      return null;
+    }
+
+    const validatedPassword = await this.validatePassword(
+      password,
+      storedPassword,
+    );
+
+    console.log("Valid password ", validatedPassword);
+
+    if (validatedPassword) {
+      return user;
+    } else {
+      return null;
+    }
+  }
+
   async validateSession(sessionToken: string): Promise<UserDto> {
     const session = await this.userRepository.getSession(sessionToken);
 
@@ -53,18 +87,18 @@ export class AuthenticationService {
     return bcrypt.compareSync(password, hash);
   }
 
-  // /**
-  //  * Creates a user in the database
-  //  * @param newUser
-  //  * @returns
-  //  */
-  // async createUser(newUser: {
-  //   name?: string;
-  //   email: string;
-  //   password?: string;
-  // }): Promise<UserDto> {
-  //   const adapter = PrismaAdapter(prisma);
-  //
-  //   return await this.userRepository.createUser(newUser);
-  // }
+  /**
+   * Creates a user in the database
+   * @param newUser
+   * @returns
+   */
+  async createUser(newUser: {
+    name?: string;
+    email: string;
+    password?: string;
+  }): Promise<UserDto> {
+    const adapter = PrismaAdapter(prisma);
+
+    return await this.userRepository.createUser(newUser);
+  }
 }

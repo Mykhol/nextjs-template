@@ -1,8 +1,11 @@
-import { AvatarFallback } from "@radix-ui/react-avatar";
-
 import { HTMLAttributes } from "react";
-import { Avatar as AvatarBase, AvatarImage } from "../ui/avatar";
+import {
+  Avatar as AvatarBase,
+  AvatarFallback,
+  AvatarImage,
+} from "../ui/avatar";
 import { UserDto } from "@/domain/User/models/User";
+import { User } from "lucide-react";
 
 interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   user?: UserDto;
@@ -10,9 +13,11 @@ interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 export function Avatar({ user }: AvatarProps) {
   return (
-    <AvatarBase>
-      {user?.image && <AvatarImage src={user?.image} />}
-      <AvatarFallback>{user?.name?.at(0)}</AvatarFallback>
+    <AvatarBase className={"bg-white"}>
+      <AvatarImage src={user?.image || ""} />
+      <AvatarFallback>
+        <User />
+      </AvatarFallback>
     </AvatarBase>
   );
 }

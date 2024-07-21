@@ -33,5 +33,8 @@ export interface IUserRepository {
   getUsers(options?: GetUserOptions): Promise<User[]>;
   getSession(sessionToken: string): Promise<SessionDto | null>;
   getUser(options: GetUserOptions): Promise<User>;
-  // createUser(options: CreateUserOptions): Promise<UserDto>;
+
+  getPassword(userId: string): Promise<string | null>;
+
+  createUser(options: CreateUserOptions): Promise<UserDto>;
 }

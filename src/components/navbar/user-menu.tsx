@@ -10,12 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar } from "../account/avatar";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { LogOut, Settings, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { PERMISSION_KEY } from "@/domain/Auth/Permission.keys";
-import { User, UserDto } from "@/domain/User/models/User";
-import { Role } from "@/domain/Auth/models/Role";
+import { UserDto } from "@/domain/User/models/User";
 import { useRole } from "@/hooks/useRole";
 
 interface UserMenuProps extends HTMLAttributes<HTMLDivElement> {
@@ -31,8 +30,8 @@ export function UserMenu({ user, className }: UserMenuProps) {
         <Avatar user={user} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-4 p-4 min-w-[200px]">
-        <DropdownMenuGroup>{user?.name}</DropdownMenuGroup>
-        <DropdownMenuSeparator />
+        {user.name && <DropdownMenuGroup>{user?.name}</DropdownMenuGroup>}
+        {user.name && <DropdownMenuSeparator />}
         <DropdownMenuItem className="cursor-pointer" asChild>
           <Link href={"/account"}>
             <Settings className="mr-2" size={18} /> Account
