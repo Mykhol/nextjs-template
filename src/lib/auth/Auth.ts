@@ -70,7 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => ({
       credentials: {
         email: {},
         password: {},
-        signUp: },
+        signUp: {},
       },
       async authorize(credentials, req) {
         // Does user exist?
@@ -81,7 +81,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => ({
         const authService = ServiceFactory.buildAuthenticationService();
 
         const hashedPassword = await authService.hashPassword(
-          credentials.password as string
+          credentials.password as strin,
         );
 
         console.log("signup: ", credentials.signUp);
@@ -90,7 +90,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => ({
           console.log("No user, creating noe");
           return await authService.createUser({
             email: credentials.email as string,
-            password: hashedPassword
+            password: hashedPassword,
           });
         }
 
@@ -98,7 +98,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => ({
           // If this is not a sign up, validate the credentials
           const user = await authService.validateCredentials(
             credentials.email as string,
-            credentials.password as string
+            credentials.password as strin,
           );
 
           console.log("user ", user);
